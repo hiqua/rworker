@@ -1,0 +1,15 @@
+[Unit]
+Description=Rworker - Remote Job Execution
+# TODO
+# Documentation=man:rworker(1)
+
+[Service]
+ExecStart=/usr/local/bin/server
+Restart=on-failure
+RestartSec=5
+# TODO:
+# SuccessExitStatus=3 4
+# RestartForceExitStatus=3 4
+
+[Install]
+WantedBy=default.target
