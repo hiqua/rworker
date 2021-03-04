@@ -27,7 +27,7 @@ For more details about the API, see [API.yaml](API.yaml).
 | GET    | /log/{id}  | Retrieve stdout / stdout as two separate fields |
 | GET    | /job/{id}  | Retrieve status, incl. exit code if applicable  |
 | POST   | /job       | Create a new job                                |
-| POST   | /stop/{id} | Stop a job                                      |
+| DELETE | /stop/{id} | Stop a job                                      |
 
 # CLI
 * not meant to be used in scripts but just for manual usage (alternative to

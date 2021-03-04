@@ -86,7 +86,7 @@ paths:
         "400":
           description: invalid input, job request invalid
   /stop/{id}:
-    post:
+    delete:
       tags:
       - user
       summary: stop a job

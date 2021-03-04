@@ -1,12 +1,11 @@
 package main
 
-import "fmt"
-import "time"
+import (
+	"log"
+
+	"github.com/hiqua/rworker/internal"
+)
 
 func main() {
-	fmt.Println("Starting server...")
-	for {
-		// Lazy server!
-		time.Sleep(3600 * time.Second)
-	}
+	log.Fatal(server.Serve())
 }
