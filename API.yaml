@@ -1,0 +1,171 @@
+---
+swagger: "2.0"
+info:
+  description: Worker API
+  version: 0.0.1
+  title: Worker API
+host: virtserver.swaggerhub.com
+basePath: /h8629/rworker/0.0.1
+tags:
+- name: user
+  description: Operations available to the user
+schemes:
+- https
+paths:
+  /log/{id}:
+    get:
+      tags:
+      - user
+      summary: fetches log
+      description: |
+        By passing in the job id, you can fetch the current log.
+      operationId: fetchLog
+      produces:
+      - application/json
+      parameters:
+      - name: jobId
+        in: path
+        description: pass the id of the job log to fetch
+        required: true
+        type: string
+        format: uuid
+      responses:
+        "200":
+          description: job log found
+          schema:
+            $ref: '#/definitions/JobLog'
+        "400":
+          description: bad input parameter
+  /job/{id}:
+    get:
+      tags:
+      - user
+      summary: fetches job status
+      description: |
+        By passing in the job id, you can fetch the current status.
+      operationId: fetchStatus
+      produces:
+      - application/json
+      parameters:
+      - name: jobId
+        in: path
+        description: pass the id of the job to fetch
+        required: true
+        type: string
+        format: uuid
+      responses:
+        "200":
+          description: job status found
+          schema:
+            $ref: '#/definitions/JobStatus'
+        "400":
+          description: bad input parameter
+  /job:
+    post:
+      tags:
+      - user
+      summary: add a job request
+      description: Add a job request to the system
+      operationId: addJob
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: jobRequest
+        description: Job item to add
+        required: true
+        schema:
+          $ref: '#/definitions/JobRequest'
+      responses:
+        "201":
+          description: job started
+          schema:
+            $ref: '#/definitions/JobId'
+        "400":
+          description: invalid input, job request invalid
+  /stop/{id}:
+    post:
+      tags:
+      - user
+      summary: stop a job
+      description: Stop a job if it is still running
+      operationId: stopJob
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: jobId
+        description: Job id to stop
+        required: true
+        type: string
+        format: uuid
+      responses:
+        "200":
+          description: process stopped
+        "202":
+          description: currently trying to stop the process, try again later to double check.
+        "400":
+          description: invalid input, job request invalid
+definitions:
+  JobLog:
+    type: object
+    required:
+    - stdout
+    - stderr
+    properties:
+      stdout:
+        type: string
+        example: "eipp.log.xz\nhistory.log"
+      stderr:
+        type: string
+        example: "ls: cannot open directory '/root': Permission denied"
+  JobId:
+    type: object
+    required:
+    - id
+    properties:
+      id:
+        type: string
+        format: uuid
+  JobStatus:
+    type: object
+    required:
+    - id
+    - command
+    - arguments
+    - status
+    properties:
+      id:
+        type: string
+        format: uuid
+      command:
+        type: string
+        example: "ls"
+      arguments:
+        type: array
+        example: ["/tmp", "/root"]
+      status:
+        type: string
+        enum: [done, running, stopped]
+        example: done
+      exitCode:
+        description: The exit code returned by the process. -1 means that the process has been interrupted.
+        type: number
+        example: 1
+  JobRequest:
+    type: object
+    required:
+    - command
+    properties:
+      command:
+        type: string
+        example: "ls"
+      arguments:
+        type: array
+        items:
+          type: string
+        example: "[\"/var/log/apt\", \"/root\"]"
