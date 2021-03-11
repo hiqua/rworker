@@ -34,7 +34,7 @@ paths:
           description: job log found
           schema:
             $ref: '#/definitions/JobLog'
-        "400":
+        "404":
           description: bad input parameter
   /job/{id}:
     get:
@@ -58,7 +58,7 @@ paths:
           description: job status found
           schema:
             $ref: '#/definitions/JobStatus'
-        "400":
+        "404":
           description: bad input parameter
   /job:
     post:
@@ -83,7 +83,7 @@ paths:
           description: job started
           schema:
             $ref: '#/definitions/JobId'
-        "400":
+        "404":
           description: invalid input, job request invalid
   /stop/{id}:
     delete:
@@ -108,7 +108,7 @@ paths:
           description: process stopped
         "202":
           description: currently trying to stop the process, try again later to double check.
-        "400":
+        "404":
           description: invalid input, job request invalid
 definitions:
   JobLog:
