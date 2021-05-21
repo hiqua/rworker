@@ -1,5 +1,7 @@
 # rworker
 
+A small first project in Go to learn the basics of the language.
+
 ## Building
 ```sh
 go build ./...
